@@ -1,0 +1,30 @@
+.gap-1 {
+	gap: 0.5rem;
+}
+.gap-2 {
+	gap: 1rem;
+}
+.gap-3 {
+	gap: 1.5rem;
+}
+.gap-4 {
+	gap: 2rem;
+}
+
+.MuiButton-colorPrimary {
+}
+.breadcrumb {
+	padding: 0 0.8rem 0.5rem 0 !important;
+	background-color: transparent !important;
+}
+.breadcrumb .MuiBreadcrumbs-li {
+	font-size: 0.875rem;
+}
+.breadcrumb a {
+	color: var(--text-secondary) !important;
+	font-weight: 500 !important;
+}
+
+.breadcrumb p {
+	color: var(--text-primary) !important;
+}
