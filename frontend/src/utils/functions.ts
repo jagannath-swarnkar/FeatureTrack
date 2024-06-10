@@ -389,3 +389,18 @@ export const getAccountIcon = (title: any, defaultIcon?: any) => {
 	}
 	return defaultIcon || iconsList.cash;
 };
+
+export const getAvatarText = (title: string) => {
+	let text = "";
+	if (!title) {
+		return "-";
+	}
+	if (title.length === 2) text = title;
+	const [f, l] = title.split(" ");
+	if (l) {
+		text = f[0] + l[0];
+	} else {
+		text = f[0];
+	}
+	return text;
+};

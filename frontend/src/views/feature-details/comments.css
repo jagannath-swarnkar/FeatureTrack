@@ -1,0 +1,22 @@
+.comment_cont {
+}
+.comment_card {
+	padding: 0.5rem 0.875rem;
+	border: 1px solid var(--card-border-color);
+	border-radius: 6px;
+}
+.editor_cont {
+	/* padding: 0.5rem 0.875rem; */
+	border: 1px solid var(--card-border-color);
+	border-radius: 6px;
+	min-height: 10rem;
+}
+.ql-toolbar {
+	border-top: none !important;
+	border-left: none !important;
+	border-right: none !important;
+}
+.ql-container {
+	min-height: 10rem;
+	border: none !important;
+}
