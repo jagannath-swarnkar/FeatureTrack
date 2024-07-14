@@ -1,3 +1,5 @@
+import { Request, Response } from "express";
+
 export interface IExpense {
 	title: string;
 	category: string;
@@ -32,3 +34,20 @@ export type IMail = {
 	subject: string;
 	body: string;
 };
+
+export interface IRequest extends Request {
+	tokenData: {
+		email: String;
+		password: String;
+		name: String;
+		profilePic: String;
+		banner: String;
+		createdAt: Date;
+		status: String;
+		emailVerified: Boolean;
+		otp: String;
+		otpExpires: Date;
+		projects: { projectName: string; projectId: string }[];
+	};
+}
+export interface IResponse extends Response {}

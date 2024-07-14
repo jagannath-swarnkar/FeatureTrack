@@ -9,6 +9,7 @@ const UserTable = new Schema({
 	status: String,
 	emailVerified: Boolean,
 	otp: String,
-	otpExpires: Date
+	otpExpires: Date,
+	projects: Array
 });
 export default model("Users", UserTable);
