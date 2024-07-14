@@ -25,21 +25,18 @@ export const login = async (_req: any, _res: any) => {
 	} else {
 		payload = validSchema.value;
 	}
+	console.log("payload", payload);
 
 	try {
 		// validating user
-		let user = await Users.findOne({ email: payload.email, emailVerified: true, status: "active" });
+		let user = await Users.findOne({ email: payload.email });
+		console.log("✌️user --->", user);
 		if (!user) {
 			return _res.status(400).send({
 				message: "Invalid email or password!",
 				code: 400
 			});
 		}
-		if (user.status !== "active")
-			return _res.status(400).send({
-				message: "User is inactive, Please contact with admin.",
-				code: 400
-			});
 
 		// validating password
 		const plainPass = await bcrypt.compare(payload.password, user.password);
@@ -59,7 +56,8 @@ export const login = async (_req: any, _res: any) => {
 		const response = {
 			token,
 			email: user.email,
-			userId: user._id
+			userId: user._id,
+			projects: user.projects
 		};
 		return _res.status(200).send({
 			message: "Login successfull!",

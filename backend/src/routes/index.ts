@@ -1,14 +1,13 @@
 import express from "express";
-import { addNewAccount, deleteAccount, getAllAccounts, updateOneAccount } from "../controllers/accounts";
 
-import { addNewExpense, deleteOneExpense, getAllExpenses, getTotalSpendAmount, updateOneExpense } from "../controllers/expense";
-import { getProfile } from "../controllers/profile";
 import { login, resendOtp, sendMarketingEmail, signup, verifyOtp } from "../controllers/auth";
-import { BasicAuth } from "../utils/BasicAuth";
+import { addNewModule, deleteModule, getAllModules, updateOneModule } from "../controllers/modules";
+import { getProfile } from "../controllers/profile";
 import { AuthGuard } from "../utils/AuthGuard";
-import { getIncomeVsCredit, getSpendAnalytics, getSpendAnalyticsByCategory } from "../controllers/analytics";
-import { addNewRemainder, deleteRemainder, getAllRemainders, updateOneRemainder } from "../controllers/remainders";
-import { getAllCategories, addNewCategory, updateOneCategory, deleteCategory } from "../controllers/categories";
+import { BasicAuth } from "../utils/BasicAuth";
+import { addNewPage, deletePage, getAllPages, updateOnePage } from "../controllers/pages";
+import { getAllComponents, addNewComponent, deleteComponent, updateOneComponent } from "../controllers/components";
+import { getAllComments, updateOneComment, deleteComment, addNewComment } from "../controllers/comments";
 
 const router = express.Router();
 
@@ -19,37 +18,31 @@ router.post("/verify_otp", BasicAuth, verifyOtp);
 router.post("/resend_otp", resendOtp);
 router.get("/send_marketing_email", sendMarketingEmail);
 
-// expense routes
-router.post("/spends", [AuthGuard], addNewExpense);
-router.get("/spends", [AuthGuard], getAllExpenses);
-router.patch("/spends/:id", [AuthGuard], updateOneExpense);
-router.delete("/spends/:id", [AuthGuard], deleteOneExpense);
-router.get("/spends/total", [AuthGuard], getTotalSpendAmount);
-
 // profile routes
 router.get("/profile", [AuthGuard], getProfile);
 
-// bank accounts & cards
-router.get("/accounts", [AuthGuard], getAllAccounts);
-router.post("/accounts", [AuthGuard], addNewAccount);
-router.patch("/accounts/:id", [AuthGuard], updateOneAccount);
-router.delete("/accounts/:id", [AuthGuard], deleteAccount);
+// modules ( high level )
+router.get("/modules", [AuthGuard], getAllModules);
+router.post("/modules", [AuthGuard], addNewModule);
+router.patch("/modules/:id", [AuthGuard], updateOneModule);
+router.delete("/modules/:id", [AuthGuard], deleteModule);
 
-// categories
-router.get("/categories", [AuthGuard], getAllCategories);
-router.post("/categories", [AuthGuard], addNewCategory);
-router.patch("/categories/:id", [AuthGuard], updateOneCategory);
-router.delete("/categories/:id", [AuthGuard], deleteCategory);
+// pages ( high level or module > pages)
+router.get("/pages", [AuthGuard], getAllPages);
+router.post("/pages", [AuthGuard], addNewPage);
+router.patch("/pages/:id", [AuthGuard], updateOnePage);
+router.delete("/pages/:id", [AuthGuard], deletePage);
 
-// analytics
-router.get("/analytics/expense", [AuthGuard], getSpendAnalytics);
-router.get("/analytics/type", [AuthGuard], getSpendAnalyticsByCategory);
-router.get("/analytics/yearly_comparision", [AuthGuard], getIncomeVsCredit);
+// components ( high level or module > pages OR module > pages > components OR pages > components)
+router.get("/components", [AuthGuard], getAllComponents);
+router.post("/components", [AuthGuard], addNewComponent);
+router.patch("/components/:id", [AuthGuard], updateOneComponent);
+router.delete("/components/:id", [AuthGuard], deleteComponent);
 
-// remainders
-router.get("/remainders", [AuthGuard], getAllRemainders);
-router.post("/remainders", [AuthGuard], addNewRemainder);
-router.patch("/remainders/:id", [AuthGuard], updateOneRemainder);
-router.delete("/remainders/:id", [AuthGuard], deleteRemainder);
+// Comments ( components > comment )
+router.get("/comments", [AuthGuard], getAllComments);
+router.post("/comments", [AuthGuard], addNewComment);
+router.patch("/comments/:id", [AuthGuard], updateOneComment);
+router.delete("/comments/:id", [AuthGuard], deleteComment);
 
 export default router;

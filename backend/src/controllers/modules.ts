@@ -1,10 +1,14 @@
 import Joi from "joi";
-import Accounts from "../models/Accounts";
+import Modules from "../models/Modules";
 
-export const addNewAccount = async (_req: any, _res: any) => {
+import { IRequest, IResponse } from "../utils/types";
+
+export const addNewModule = async (_req: IRequest, _res: IResponse) => {
 	let payload: any;
+
 	const schema = Joi.object({
-		title: Joi.string().optional()
+		title: Joi.string().required(),
+		subtitle: Joi.string().required()
 	});
 	try {
 		payload = await schema.validateAsync(_req.body);
@@ -12,10 +16,16 @@ export const addNewAccount = async (_req: any, _res: any) => {
 		return _res.status(400).json({ message: error.message });
 	}
 	payload.createdAt = new Date();
-	payload.userId = _req.tokenData.email;
+	payload.createdBy = _req.tokenData.email;
+	payload.projectId = _req.headers.projectid;
+	payload.projectName = _req.headers.projectname;
 	try {
-		const res = await Accounts.create(payload);
-		return _res.status(201).json(res);
+		const res = await Modules.create(payload);
+		return _res.status(201).json({
+			message: "Success",
+			status: 201,
+			data: res
+		});
 	} catch (error) {
 		console.error("console error: ", error);
 		return _res.status(500).send({
@@ -26,9 +36,9 @@ export const addNewAccount = async (_req: any, _res: any) => {
 };
 
 // get all expenses filtered by start date and end date
-export const getAllAccounts = async (_req: any, _res: any) => {
+export const getAllModules = async (_req: IRequest, _res: IResponse) => {
 	try {
-		const expenses = await Accounts.find({ userId: _req.tokenData.email }, { __v: 0 });
+		const expenses = await Modules.find({ projectId: _req.headers.projectid }, { __v: 0 });
 		return _res.status(200).json(expenses);
 	} catch (error) {
 		console.error("console error: ", error);
@@ -39,20 +49,24 @@ export const getAllAccounts = async (_req: any, _res: any) => {
 	}
 };
 
-export const deleteAccount = async (_req: any, _res: any) => {
+export const deleteModule = async (_req: IRequest, _res: IResponse) => {
 	const { id } = _req.params;
 	if (!id) {
 		return _res.status(400).json({ message: "id is required!" });
 	}
 	try {
-		const deleted = await Accounts.findByIdAndDelete({ _id: id, userId: _req.tokenData.email });
+		const deleted = await Modules.findByIdAndDelete({ _id: id });
 		if (!deleted) {
 			return _res.status(400).json({
 				code: 400,
 				message: "Invalid id!"
 			});
 		}
-		return _res.status(200).json(deleted);
+		return _res.status(200).json({
+			message: "Success!",
+			status: 200,
+			data: deleteModule
+		});
 	} catch (error) {
 		console.error("console error: ", error);
 		return _res.status(500).send({
@@ -62,11 +76,12 @@ export const deleteAccount = async (_req: any, _res: any) => {
 	}
 };
 
-export const updateOneAccount = async (_req: any, _res: any) => {
+export const updateOneModule = async (_req: IRequest, _res: IResponse) => {
 	const { id } = _req.params;
 	let payload: any;
 	const schema = Joi.object({
-		title: Joi.string().optional()
+		title: Joi.string().required(),
+		subtitle: Joi.string().required()
 	});
 	try {
 		payload = await schema.validateAsync(_req.body);
@@ -76,8 +91,10 @@ export const updateOneAccount = async (_req: any, _res: any) => {
 	if (!id) {
 		return _res.status(400).json({ message: "id is required!" });
 	}
+	payload.updatedAt = new Date();
+	payload.updatedBy = _req.tokenData.email;
 	try {
-		const updated = await Accounts.findByIdAndUpdate({ _id: id, userId: _req.tokenData.email }, payload, { new: true });
+		const updated = await Modules.findByIdAndUpdate({ _id: id }, payload, { new: true });
 		return _res.status(200).json(updated);
 	} catch (error) {
 		console.error("console error: ", error);
