@@ -2,7 +2,7 @@ import express from "express";
 
 import { login, resendOtp, sendMarketingEmail, signup, verifyOtp } from "../controllers/auth";
 import { addNewModule, deleteModule, getAllModules, updateOneModule } from "../controllers/modules";
-import { getProfile } from "../controllers/profile";
+// import { getProfile } from "../controllers/profile";
 import { AuthGuard } from "../utils/AuthGuard";
 import { BasicAuth } from "../utils/BasicAuth";
 import { addNewPage, deletePage, getAllPages, updateOnePage } from "../controllers/pages";
@@ -19,7 +19,7 @@ router.post("/resend_otp", resendOtp);
 router.get("/send_marketing_email", sendMarketingEmail);
 
 // profile routes
-router.get("/profile", [AuthGuard], getProfile);
+// router.get("/profile", [AuthGuard], getProfile);
 
 // modules ( high level )
 router.get("/modules", [AuthGuard], getAllModules);
