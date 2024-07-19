@@ -104,3 +104,17 @@ export const updateOneModule = async (_req: IRequest, _res: IResponse) => {
 		});
 	}
 };
+
+export const getModuleDetails = async (_req: IRequest, _res: IResponse) => {
+	try {
+		const { id } = _req.params;
+		const expenses = await Modules.findOne({ projectId: _req.headers.projectid, _id: id }, { __v: 0 });
+		return _res.status(200).json(expenses);
+	} catch (error) {
+		console.error("console error: ", error);
+		return _res.status(500).send({
+			message: error.message || "Internal Server Error!",
+			code: 500
+		});
+	}
+};
