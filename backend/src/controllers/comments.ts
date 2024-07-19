@@ -1,5 +1,5 @@
 import Joi from "joi";
-import Comments from "../models/Components";
+import Comments from "../models/Comments";
 
 import { IRequest, IResponse } from "../utils/types";
 
