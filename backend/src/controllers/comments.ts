@@ -54,6 +54,9 @@ export const getAllComments = async (_req: IRequest, _res: IResponse) => {
 		if (_req.query.pid) {
 			query.pageId = _req.query.pid;
 		}
+		if (_req.query.cid) {
+			query.componentId = _req.query.cid;
+		}
 		const expenses = await Comments.find(query, { __v: 0 });
 		return _res.status(200).json(expenses);
 	} catch (error) {

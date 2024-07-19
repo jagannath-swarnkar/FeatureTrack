@@ -9,8 +9,8 @@ export const addNewPage = async (_req: IRequest, _res: IResponse) => {
 	const schema = Joi.object({
 		title: Joi.string().required(),
 		subtitle: Joi.string().required(),
-		moduleId: Joi.string().required(),
-		moduleName: Joi.string().required()
+		moduleId: Joi.string().optional(),
+		moduleName: Joi.string().optional()
 	});
 	try {
 		payload = await schema.validateAsync(_req.body);
